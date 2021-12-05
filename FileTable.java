@@ -2,25 +2,26 @@ import javax.swing.table.AbstractTableModel;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.Vector;
 
 /**
  * @Author: Kang
- * @Version 1.0
+ * @Version 1.1
  * @Package: PACKAGE_NAME
  * @CreateTime: 2021/12/1 22:13
  * @Software: IntelliJ IDEA
  */
 
-public class tableModel extends AbstractTableModel {
+public class FileTable extends AbstractTableModel {
     private Vector<Vector<String>> content = null;
     private final String[] title_name = { "文件名", "文件路径", "类型", "文件大小/KB", "最后修改时间"};
 
-    public tableModel(){
+    public FileTable(){
         content = new Vector<>();
     }
 
-    public void addRow(myFiles myFile){
+    public void addRow(MyFiles myFile){
         Vector<String> v = new Vector<>();
         DecimalFormat format=new DecimalFormat("#0.00");
         v.add(0, myFile.getFileName());
@@ -33,7 +34,9 @@ public class tableModel extends AbstractTableModel {
             v.add(3, "-");
         }
         long time = myFile.getMyFile().lastModified();
-        String ctime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(time));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+        String ctime = dateFormat.format(new Date(time));
         v.add(4, ctime);
         content.add(v);
     }

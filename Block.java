@@ -1,14 +1,11 @@
 import javax.swing.*;
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Author: Kang
- * @Version 1.0
+ * @Version 1.1
  * @Package: PACKAGE_NAME
  * @CreateTime: 2021/12/2 0:07
  * @Software: IntelliJ IDEA
@@ -110,7 +107,9 @@ public class Block {
         newFileWriter.write(String.valueOf(capacity) + "\r\n");
         newFileWriter.write("文件名: " + file.getName() + "\r\n");
         newFileWriter.write("路径: " + file.getPath() + "\r\n");
-        String ctime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(file.lastModified()));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+        String ctime = dateFormat.format(new Date(file.lastModified()));
         newFileWriter.write("最后修改时间: " + ctime + "\r\n");
         newFileWriter.close();
     }
@@ -229,6 +228,7 @@ public class Block {
 
     // 删除文件
     public boolean deleteFile(File file, double capacity) {
+        System.out.println(file);
         try {
             if (file.isFile()) {
                 try {
@@ -265,7 +265,7 @@ public class Block {
             }
             return true;
         } catch (Exception e) {
-            System.out.println("fail");
+            System.out.println("失败");
             return false;
         }
     }
